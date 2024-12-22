@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:8.1
+    container_name: mysql_forum_hub
+    restart: always
+    ports:
+      - "33062:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: my_password
+      MYSQL_DATABASE: forum_hub_db
+    volumes:
+      - mysql_forum_hub_data:/var/lib/mysql
+
+  mysql_test:
+    image: mysql:8.1
+    container_name: mysql_forum_hub_test
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: forum_hub_db_test
+    ports:
+      - "33063:3306"
+    volumes:
+      - mysql_forum_hub_test_data:/var/lib/mysql
+
+volumes:
+  mysql_forum_hub_data:
+  mysql_forum_hub_test_data:
