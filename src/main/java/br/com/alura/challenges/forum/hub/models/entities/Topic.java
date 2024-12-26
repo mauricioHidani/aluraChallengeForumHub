@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "topicos")
@@ -13,8 +12,7 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private Long id;
 
     @Column(name = "titulo",
             columnDefinition = "VARCHAR(128)",
@@ -49,7 +47,11 @@ public class Topic {
     protected Topic() {
     }
 
-    public Topic(String title, String message, LocalDateTime creationDate, String status, User user,
+    public Topic(Long id) {
+        this.id = id;
+    }
+
+    public Topic(String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
                  Course course, Set<Response> responses) {
         this.title = title;
         this.message = message;
