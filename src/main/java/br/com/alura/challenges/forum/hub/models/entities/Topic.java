@@ -113,4 +113,21 @@ public class Topic {
         this.responses.add(response);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Topic topic = (Topic) o;
+        return Objects.equals(id, topic.id) &&
+                Objects.equals(title, topic.title) &&
+                Objects.equals(message, topic.message) &&
+                Objects.equals(author, topic.author) &&
+                Objects.equals(course, topic.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, message, author, course);
+    }
+
 }
