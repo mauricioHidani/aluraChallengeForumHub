@@ -1,9 +1,11 @@
 package br.com.alura.challenges.forum.hub.models.entities;
 
+import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -28,11 +30,12 @@ public class Topic {
 
     @Column(name = "status",
             columnDefinition = "VARCHAR(128)")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TopicStatus status;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")
-    private User user;
+    private User author;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
@@ -57,12 +60,24 @@ public class Topic {
         this.message = message;
         this.creationDate = creationDate;
         this.status = status;
-        this.user = user;
+        this.author = author;
         this.course = course;
         this.responses = responses;
     }
 
-    public UUID getId() {
+    public Topic(Long id, String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
+                 Course course, Set<Response> responses) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.author = author;
+        this.course = course;
+        this.responses = responses;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -78,12 +93,12 @@ public class Topic {
         return creationDate;
     }
 
-    public String getStatus() {
+    public TopicStatus getStatus() {
         return status;
     }
 
-    public User getUser() {
-        return user;
+    public User getAuthor() {
+        return author;
     }
 
     public Course getCourse() {
