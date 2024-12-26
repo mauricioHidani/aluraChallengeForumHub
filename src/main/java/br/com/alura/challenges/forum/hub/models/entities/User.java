@@ -39,16 +39,25 @@ public class User {
     @JoinTable(name = "perfis_de_usuarios",
                joinColumns = @JoinColumn(name = "usuario_id"),
                inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-    private Set<Rule> rules = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     protected User() {
     }
 
-    public User(String name, String email, String password, Set<Rule> rules) {
+    public User(Long id) {
+        this.id = id;
+    }
+
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(String name, String email, String password, Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.rules = rules;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -67,12 +76,12 @@ public class User {
         return password;
     }
 
-    public Set<Rule> getRules() {
-        return rules;
+    public Set<Role> getRules() {
+        return roles;
     }
 
-    public void addRule(Rule rule) {
-        this.rules.add(rule);
+    public void addRule(Role role) {
+        this.roles.add(role);
     }
 
 }

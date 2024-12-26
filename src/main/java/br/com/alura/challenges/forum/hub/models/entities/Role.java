@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "perfis")
-public class Rule {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class Rule {
             columnDefinition = "VARCHAR(64)")
     private String name;
 
-    protected Rule() {
+    protected Role() {
     }
 
-    public Rule(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
