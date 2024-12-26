@@ -1,7 +1,9 @@
 package br.com.alura.challenges.forum.hub.repositories;
 
 import br.com.alura.challenges.forum.hub.models.entities.Topic;
+import br.com.alura.challenges.forum.hub.models.transfers.SimpleFindTopicTransfer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
