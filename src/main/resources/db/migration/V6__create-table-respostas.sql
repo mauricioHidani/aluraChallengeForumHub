@@ -1,5 +1,5 @@
 CREATE TABLE respostas(
-    id BINARY(16) NOT NULL PRIMARY KEY,
+    id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     data_criacao TIMESTAMP NOT NULL,
     solucao TEXT,
     topico_id BIGINT NOT NULL,
