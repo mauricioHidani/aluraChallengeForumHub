@@ -11,4 +11,22 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
 
     Boolean existsByTitleAndMessage(String title, String message);
 
+    @Query("""
+            SELECT
+            t.id AS id,
+            t.title AS title,
+            t.message AS message,
+            t.creationDate AS creationDate,
+            t.status AS status,
+            a.id AS authorId,
+            a.name AS authorName,
+            c.id AS courseId,
+            c.name AS courseName
+            FROM Topic t
+            JOIN t.author a
+            JOIN t.course c
+            WHERE t.id = :topicId
+            """)
+    SimpleFindTopicTransfer findTopicDetailsById(Long topicId);
+
 }
