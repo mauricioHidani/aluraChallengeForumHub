@@ -29,7 +29,7 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity register(@RequestBody @Valid RegisterTopicRequest request) {
+    public ResponseEntity<RegisterTopicResponse> register(@RequestBody @Valid RegisterTopicRequest request) {
         var result = registerService.execute(request);
         var uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/topicos/{id}")
