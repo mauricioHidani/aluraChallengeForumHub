@@ -38,4 +38,7 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
             """)
     SimpleFindTopicTransfer findTopicDetailsById(Long topicId);
 
+    @Query("SELECT t FROM Topic t WHERE YEAR(t.creationDate) = :year")
+    List<Topic> findAllByCreationDateYear(Integer year);
+
 }
