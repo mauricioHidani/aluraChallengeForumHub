@@ -28,22 +28,27 @@ public class AdviceExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException e,
+    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException exception,
                                                                   HttpServletRequest request) {
         final var status = HttpStatus.BAD_REQUEST;
         final var result = buildErrorResponse(status, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(result);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception, request);
+    }
     }
 
-    private ErrorResponse buildErrorResponse(final HttpStatus status, final String errorMessage, final String path) {
+    private ResponseEntity<ErrorResponse> buildErrorResponse(final HttpStatus status,
+                                                             final RuntimeException exception,
+                                                             final HttpServletRequest request) {
         final var timestamp = Instant.now(Clock.systemUTC());
-        return new ErrorResponse(
+        final var result = new ErrorResponse(
             status.value(),
             status.name(),
             timestamp,
-            errorMessage,
-            path
+            exception.getMessage(),
+            request.getRequestURI()
         );
+        return ResponseEntity.status(status).body(result);
     }
 
 }
