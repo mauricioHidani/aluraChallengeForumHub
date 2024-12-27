@@ -11,8 +11,7 @@ public class Response {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private Long id;
 
     @Column(name = "data_criacao")
     private LocalDateTime creationDate;
@@ -38,7 +37,7 @@ public class Response {
         this.author = author;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

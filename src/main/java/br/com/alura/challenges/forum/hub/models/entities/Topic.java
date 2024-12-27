@@ -1,11 +1,12 @@
 package br.com.alura.challenges.forum.hub.models.entities;
 
+import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "topicos")
@@ -13,8 +14,7 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    private Long id;
 
     @Column(name = "titulo",
             columnDefinition = "VARCHAR(128)",
@@ -30,11 +30,12 @@ public class Topic {
 
     @Column(name = "status",
             columnDefinition = "VARCHAR(128)")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TopicStatus status;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")
-    private User user;
+    private User author;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
@@ -49,18 +50,34 @@ public class Topic {
     protected Topic() {
     }
 
-    public Topic(String title, String message, LocalDateTime creationDate, String status, User user,
+    public Topic(Long id) {
+        this.id = id;
+    }
+
+    public Topic(String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
                  Course course, Set<Response> responses) {
         this.title = title;
         this.message = message;
         this.creationDate = creationDate;
         this.status = status;
-        this.user = user;
+        this.author = author;
         this.course = course;
         this.responses = responses;
     }
 
-    public UUID getId() {
+    public Topic(Long id, String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
+                 Course course, Set<Response> responses) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.author = author;
+        this.course = course;
+        this.responses = responses;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -76,12 +93,12 @@ public class Topic {
         return creationDate;
     }
 
-    public String getStatus() {
+    public TopicStatus getStatus() {
         return status;
     }
 
-    public User getUser() {
-        return user;
+    public User getAuthor() {
+        return author;
     }
 
     public Course getCourse() {
@@ -94,6 +111,23 @@ public class Topic {
 
     public void addResponse(Response response) {
         this.responses.add(response);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Topic topic = (Topic) o;
+        return Objects.equals(id, topic.id) &&
+                Objects.equals(title, topic.title) &&
+                Objects.equals(message, topic.message) &&
+                Objects.equals(author, topic.author) &&
+                Objects.equals(course, topic.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, message, author, course);
     }
 
 }

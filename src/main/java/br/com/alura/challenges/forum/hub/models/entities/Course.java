@@ -21,6 +21,15 @@ public class Course {
     protected Course() {
     }
 
+    public Course(Long id) {
+        this.id = id;
+    }
+
+    public Course(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Course(String name, String category) {
         this.name = name;
         this.category = category;
