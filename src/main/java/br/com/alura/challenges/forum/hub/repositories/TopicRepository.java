@@ -2,14 +2,21 @@ package br.com.alura.challenges.forum.hub.repositories;
 
 import br.com.alura.challenges.forum.hub.models.entities.Topic;
 import br.com.alura.challenges.forum.hub.models.transfers.SimpleFindTopicTransfer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, UUID> {
+
+    Page<Topic> findByCourse_Name(String courseName, Pageable pageable);
+
+    List<Topic> findTop10ByOrderByCreationDateAsc();
 
     Boolean existsByTitleAndMessage(String title, String message);
 
@@ -30,5 +37,8 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
             WHERE t.id = :topicId
             """)
     SimpleFindTopicTransfer findTopicDetailsById(Long topicId);
+
+    @Query("SELECT t FROM Topic t WHERE YEAR(t.creationDate) = :year")
+    List<Topic> findAllByCreationDateYear(Integer year);
 
 }

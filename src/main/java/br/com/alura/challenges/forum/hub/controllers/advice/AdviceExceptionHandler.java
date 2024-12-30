@@ -1,5 +1,6 @@
 package br.com.alura.challenges.forum.hub.controllers.advice;
 
+import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
 import br.com.alura.challenges.forum.hub.models.responses.ErrorResponse;
 import br.com.alura.challenges.forum.hub.models.responses.ValidationErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,22 +29,29 @@ public class AdviceExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException e,
+    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException exception,
                                                                   HttpServletRequest request) {
-        final var status = HttpStatus.BAD_REQUEST;
-        final var result = buildErrorResponse(status, e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(status).body(result);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception, request);
     }
 
-    private ErrorResponse buildErrorResponse(final HttpStatus status, final String errorMessage, final String path) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> notFoundException(NotFoundException exception,
+                                                           HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception, request);
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(final HttpStatus status,
+                                                             final RuntimeException exception,
+                                                             final HttpServletRequest request) {
         final var timestamp = Instant.now(Clock.systemUTC());
-        return new ErrorResponse(
+        final var result = new ErrorResponse(
             status.value(),
             status.name(),
             timestamp,
-            errorMessage,
-            path
+            exception.getMessage(),
+            request.getRequestURI()
         );
+        return ResponseEntity.status(status).body(result);
     }
 
 }
