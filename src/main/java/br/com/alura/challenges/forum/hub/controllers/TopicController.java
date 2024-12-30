@@ -10,10 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/topicos")
@@ -41,6 +47,10 @@ public class TopicController {
     @GetMapping
     public ResponseEntity<Page<FindTopicResponse>> findAll(@RequestParam Map<String, String> params,
                                                            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable) {
+        for (String paramKey : Set.of("page", "size", "sort")) {
+            params.remove(paramKey);
+        }
+
         final var result = findAllService.execute(params, pageable);
         return ResponseEntity.ok(result);
     }
