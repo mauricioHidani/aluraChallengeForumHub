@@ -4,6 +4,7 @@ import br.com.alura.challenges.forum.hub.models.requests.RegisterTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.FindTopicResponse;
 import br.com.alura.challenges.forum.hub.models.responses.RegisterTopicResponse;
 import br.com.alura.challenges.forum.hub.services.FindAllTopicService;
+import br.com.alura.challenges.forum.hub.services.FindByIdTopicService;
 import br.com.alura.challenges.forum.hub.services.RegisterTopicService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +28,14 @@ import java.util.Set;
 public class TopicController {
 
     private final RegisterTopicService registerService;
+    private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
 
     public TopicController(final RegisterTopicService registerService,
+                           final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService) {
         this.registerService = registerService;
+        this.findByIdService = findByIdService;
         this.findAllService = findAllService;
     }
 
@@ -42,6 +47,12 @@ public class TopicController {
                 .buildAndExpand(result.id())
                 .toUri();
         return ResponseEntity.created(uri).body(result);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FindTopicResponse> findById(@PathVariable Long id) {
+        final var result = findByIdService.execute(id);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping
