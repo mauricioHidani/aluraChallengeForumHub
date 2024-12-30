@@ -27,10 +27,16 @@ public class FindAllTopicService {
 
     public Page<FindTopicResponse> execute(Map<String, String> params, Pageable pageable) {
         Page<FindTopicResponse> result = new PageImpl<>(List.of());
+        var sort = pageable.getSort().stream().toList();
+        var sortProp = "";
 
-        if (pageable.isPaged()) {
+        if (!sort.isEmpty()) {
+            sortProp = sort.get(0).getProperty();
+        }
+
+        if (!sortProp.equals("creationDate") && params.isEmpty()) {
             result = parseToPageResponse(topicRepository.findAll(pageable));
-        } else if (!pageable.isPaged()) {
+        } else {
             if (params == null) {
                 result = findTop10ByOrderByCreationDate();
             } else if (params.containsKey(COURSE_KEY)) {
