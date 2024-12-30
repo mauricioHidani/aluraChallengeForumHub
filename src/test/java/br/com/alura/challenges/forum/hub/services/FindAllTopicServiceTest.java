@@ -55,12 +55,13 @@ class FindAllTopicServiceTest {
     @Test
     @DisplayName("Find All Given Paged Defined Should Return Paged Find Topic Response")
     void findAll_givenPagedDefined_shouldReturnPagedFindTopicResponse() {
-        final var pageable = PageRequest.of(1, 10, Sort.by("creationDate"));
+        final Map<String, String> params = Map.of();
+        final var pageable = PageRequest.of(0, 10, Sort.by("name"));
 
         when(topicRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(buildSingleTopic())));
 
-        final var result = service.execute(null, pageable);
+        final var result = service.execute(params, pageable);
 
         verify(topicRepository, times(1)).findAll(any(Pageable.class));
 
@@ -75,8 +76,8 @@ class FindAllTopicServiceTest {
     @DisplayName("Find All When Not Founded Should Return Not Found Exception")
     void findAll_whenNotFounded_shouldReturnNotFoundException() {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
-        final Map<String, String> params = null;
-        final var pageable = PageRequest.of(1, 10, Sort.by("creationDate"));
+        final Map<String, String> params = Map.of();
+        final var pageable = PageRequest.of(0, 10, Sort.by("name"));
 
         when(topicRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of()));
@@ -93,11 +94,13 @@ class FindAllTopicServiceTest {
     @DisplayName("Find All Given First 10 Topics By Creation Date Should Return Paged Find Topic Response")
     void findAll_givenFirst10TopicsByCreationDate_shouldReturnPagedFindTopicResponse() {
         final var mostRecentDate = this.crrCreationDate;
+        final Map<String, String> params = Map.of();
+        final var pageable = PageRequest.of(0, 10, Sort.by("creationDate"));
 
         when(topicRepository.findTop10ByOrderByCreationDateAsc())
                 .thenReturn(List.of(buildSingleTopic()));
 
-        final var result = service.execute(null, Pageable.unpaged());
+        final var result = service.execute(params, pageable);
 
         verify(topicRepository, times(1)).findTop10ByOrderByCreationDateAsc();
 
@@ -112,8 +115,8 @@ class FindAllTopicServiceTest {
     @DisplayName("Find All Given First 10 Topics By Creation Date Not Founded Should Return Not Found Exception")
     void findAll_givenFirst10TopicsByCreationDateNotFounded_shouldReturnNotFoundException() {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
-        final Map<String, String> params = null;
-        final var pageable = Pageable.unpaged();
+        final Map<String, String> params = Map.of();
+        final var pageable = PageRequest.of(0, 10, Sort.by("creationDate"));
 
         when(topicRepository.findTop10ByOrderByCreationDateAsc())
                 .thenReturn(List.of());
@@ -131,7 +134,7 @@ class FindAllTopicServiceTest {
     void findAll_givenParamsHasCourseName_shouldReturnPagedFindTopicResponse() {
         final var courseParam = "course";
         final var target = "Curso Spring JPA";
-        final var params = Map.of(courseParam, target);
+        final Map<String, String> params = Map.of(courseParam, target);
         final var pageable = Pageable.unpaged();
 
         when(topicRepository.findByCourse_Name(target, pageable))
@@ -155,7 +158,7 @@ class FindAllTopicServiceTest {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
         final var courseParam = "course";
         final var target = "Spring JPA";
-        final var params = Map.of(courseParam, target);
+        final Map<String, String> params = Map.of(courseParam, target);
         final var pageable = Pageable.unpaged();
 
         when(topicRepository.findByCourse_Name(target, pageable))
@@ -174,7 +177,7 @@ class FindAllTopicServiceTest {
     void findAll_givenParamsHasCreationYear_shouldReturnPagedFindTopicResponse() {
         final var creationYear = "creation-year";
         final var target = "2024";
-        final var params = Map.of(creationYear, target);
+        final Map<String, String> params = Map.of(creationYear, target);
         final var pageable = Pageable.unpaged();
 
         when(topicRepository.findAllByCreationDateYear(Integer.parseInt(target)))
@@ -198,7 +201,7 @@ class FindAllTopicServiceTest {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
         final var creationYear = "creation-year";
         final var target = "3000";
-        final var params = Map.of(creationYear, target);
+        final Map<String, String> params = Map.of(creationYear, target);
         final var pageable = Pageable.unpaged();
 
         when(topicRepository.findAllByCreationDateYear(Integer.parseInt(target)))

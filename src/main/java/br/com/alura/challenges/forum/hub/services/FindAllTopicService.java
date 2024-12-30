@@ -37,7 +37,7 @@ public class FindAllTopicService {
         if (!sortProp.equals("creationDate") && params.isEmpty()) {
             result = parseToPageResponse(topicRepository.findAll(pageable));
         } else {
-            if (params == null) {
+            if (params.isEmpty()) {
                 result = findTop10ByOrderByCreationDate();
             } else if (params.containsKey(COURSE_KEY)) {
                 result = findByCourseName(params, pageable);
