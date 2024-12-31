@@ -1,23 +1,20 @@
 package br.com.alura.challenges.forum.hub.controllers;
 
 import br.com.alura.challenges.forum.hub.models.requests.RegisterTopicRequest;
+import br.com.alura.challenges.forum.hub.models.requests.UpdateTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.FindTopicResponse;
 import br.com.alura.challenges.forum.hub.models.responses.RegisterTopicResponse;
+import br.com.alura.challenges.forum.hub.models.responses.UpdateTopicResponse;
 import br.com.alura.challenges.forum.hub.services.FindAllTopicService;
 import br.com.alura.challenges.forum.hub.services.FindByIdTopicService;
 import br.com.alura.challenges.forum.hub.services.RegisterTopicService;
+import br.com.alura.challenges.forum.hub.services.UpdateTopicService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Map;
@@ -30,13 +27,16 @@ public class TopicController {
     private final RegisterTopicService registerService;
     private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
+    private final UpdateTopicService updateService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
-                           final FindAllTopicService findAllService) {
+                           final FindAllTopicService findAllService,
+                           final UpdateTopicService updateService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
+        this.updateService = updateService;
     }
 
     @PostMapping
@@ -63,6 +63,12 @@ public class TopicController {
         }
 
         final var result = findAllService.execute(params, pageable);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id, @RequestBody UpdateTopicRequest request) {
+        final var result = updateService.execute(id, request);
         return ResponseEntity.ok(result);
     }
 

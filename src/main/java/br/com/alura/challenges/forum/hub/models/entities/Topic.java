@@ -121,8 +121,8 @@ public class Topic {
         return Objects.equals(id, topic.id) &&
                 Objects.equals(title, topic.title) &&
                 Objects.equals(message, topic.message) &&
-                Objects.equals(author, topic.author) &&
-                Objects.equals(course, topic.course);
+                Objects.equals(author.getId(), topic.author.getId()) &&
+                Objects.equals(course.getId(), topic.course.getId());
     }
 
     @Override
