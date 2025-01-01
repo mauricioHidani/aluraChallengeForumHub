@@ -5,10 +5,7 @@ import br.com.alura.challenges.forum.hub.models.requests.UpdateTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.FindTopicResponse;
 import br.com.alura.challenges.forum.hub.models.responses.RegisterTopicResponse;
 import br.com.alura.challenges.forum.hub.models.responses.UpdateTopicResponse;
-import br.com.alura.challenges.forum.hub.services.FindAllTopicService;
-import br.com.alura.challenges.forum.hub.services.FindByIdTopicService;
-import br.com.alura.challenges.forum.hub.services.RegisterTopicService;
-import br.com.alura.challenges.forum.hub.services.UpdateTopicService;
+import br.com.alura.challenges.forum.hub.services.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,15 +25,18 @@ public class TopicController {
     private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
     private final UpdateTopicService updateService;
+    private final DeleteTopicService deleteService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService,
-                           final UpdateTopicService updateService) {
+                           final UpdateTopicService updateService,
+                           final DeleteTopicService deleteService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
         this.updateService = updateService;
+        this.deleteService = deleteService;
     }
 
     @PostMapping
@@ -70,6 +70,12 @@ public class TopicController {
     public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id, @RequestBody UpdateTopicRequest request) {
         final var result = updateService.execute(id, request);
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        deleteService.execute(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
