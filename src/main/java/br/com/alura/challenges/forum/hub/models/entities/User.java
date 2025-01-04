@@ -78,11 +78,11 @@ public class User implements UserDetails {
         return password;
     }
 
-    public Set<Role> getRules() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void addRule(Role role) {
+    public void addRole(Role role) {
         this.roles.add(role);
     }
 
