@@ -12,12 +12,12 @@ public record RegisterTopicResponse(
         String message,
         LocalDateTime creationDate,
         String status,
-        User author,
-        Course course
+        SimpleAuthorResponse author,
+        SimpleCourseResponse course
 ) {
 
     public static RegisterTopicResponse parse(final SimpleFindTopicTransfer entity) {
-        final var author = new User(entity.getAuthorId(), entity.geAuthorName());
+        final var author = new User(entity.getAuthorId(), entity.getAuthorName());
         final var course = new Course(entity.getCourseId(), entity.getCourseName());
 
         return new RegisterTopicResponse(
@@ -26,8 +26,8 @@ public record RegisterTopicResponse(
                 entity.getMessage(),
                 entity.getCreationDate(),
                 entity.getStatus().getDescription(),
-                author,
-                course
+                SimpleAuthorResponse.parse(author),
+                SimpleCourseResponse.parse(course)
         );
     }
 
