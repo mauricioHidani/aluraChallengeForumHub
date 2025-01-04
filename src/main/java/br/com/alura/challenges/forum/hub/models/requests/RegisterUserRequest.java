@@ -15,6 +15,7 @@ public record RegisterUserRequest(
         String email,
 
         @NotNull(message = "campo senha é obrigatório")
+        @Size(min = 6, message = "O campo senha não pode ser menor do que 6 caracteres")
         String password
 ) {
 
