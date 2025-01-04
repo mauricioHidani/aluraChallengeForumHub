@@ -17,15 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,6 +49,7 @@ public class TopicControllerUpdateByIdTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Update By Id Given Topic Found By Id And Updated Should Return 200 Ok")
     void updateById_givenTopicFoundByIdAndUpdated_shouldReturn200Ok() throws Exception {
         final var id = 1L;
@@ -72,6 +71,7 @@ public class TopicControllerUpdateByIdTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Update By Id Given Topic Not Found By Id Should Return 404 Not Found")
     void updateById_givenTopicNotFoundById_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foi encontrado o tópico com o id especificado.";

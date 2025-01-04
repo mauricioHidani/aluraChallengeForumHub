@@ -1,10 +1,10 @@
 package br.com.alura.challenges.forum.hub.controllers;
 
-import br.com.alura.challenges.forum.hub.models.entities.Course;
-import br.com.alura.challenges.forum.hub.models.entities.User;
 import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import br.com.alura.challenges.forum.hub.models.requests.RegisterTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.RegisterTopicResponse;
+import br.com.alura.challenges.forum.hub.models.responses.SimpleAuthorResponse;
+import br.com.alura.challenges.forum.hub.models.responses.SimpleCourseResponse;
 import br.com.alura.challenges.forum.hub.models.responses.ValidationErrorResponse;
 import br.com.alura.challenges.forum.hub.services.RegisterTopicService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -62,6 +63,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Successful Should Return 200 Ok")
     void registerNewTopic_givenSuccessful_shouldReturn200Ok() throws Exception {
         when(registerTopicService.execute(any(RegisterTopicRequest.class)))
@@ -80,8 +82,8 @@ class TopicControllerRegisterTest {
 
         assertEquals(contentResponse.title(), request.title());
         assertEquals(contentResponse.message(), request.message());
-        assertEquals(contentResponse.author().getId(), request.authorId());
-        assertEquals(contentResponse.course().getId(), request.courseId());
+        assertEquals(contentResponse.author().id(), request.authorId());
+        assertEquals(contentResponse.course().id(), request.courseId());
         assertEquals(contentResponse.status(), TopicStatus.OPENED.getDescription());
 
         assertEquals(contentResponse.creationDate().toLocalDate(), creationDate.toLocalDate());
@@ -90,6 +92,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Title Is Null Should Return 400 Bad Request")
     void registerNewTopic_givenTitleIsNull_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "title";
@@ -114,6 +117,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Title Is Less than 3 Characters Should Return 400 Bad Request")
     void registerNewTopic_givenTitleIsLessThan3Characters_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "title";
@@ -139,6 +143,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Title Is Long Than 128 Characters Should Return 400 Bad Request")
     void registerNewTopic_givenTitleIsLongThan128Characters_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "title";
@@ -166,6 +171,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Message Is Null Should Return 400 Bad Request")
     void registerNewTopic_givenMessageIsNull_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "message";
@@ -190,6 +196,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Message Is Less than 3 Characters Should Return 400 Bad Request")
     void registerNewTopic_givenMessageIsLessThan3Characters_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "message";
@@ -215,6 +222,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Message Is Long Than 128 Characters Should Return 400 Bad Request")
     void registerNewTopic_givenMessageIsLongThan128Characters_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "message";
@@ -242,6 +250,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Author ID Is Null Should Return 400 Bad Request")
     void registerNewTopic_givenAuthorIDIsNull_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "authorId";
@@ -266,6 +275,7 @@ class TopicControllerRegisterTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Register New Topic Given Course ID Is Null Should Return 400 Bad Request")
     void registerNewTopic_givenCourseIDIsNull_shouldReturn400BadRequest() throws Exception {
         final var fieldExpected = "courseId";
@@ -305,8 +315,8 @@ class TopicControllerRegisterTest {
                 "Mensagem do tópico",
                 creationDate,
                 "aberto",
-                new User(1L),
-                new Course(1L)
+                new SimpleAuthorResponse(1L, "Nome do(a) Autor(a)"),
+                new SimpleCourseResponse(1L, "Nome do Curso")
         );
     }
 

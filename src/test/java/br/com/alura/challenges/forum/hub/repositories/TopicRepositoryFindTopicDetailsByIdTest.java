@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -31,6 +32,9 @@ public class TopicRepositoryFindTopicDetailsByIdTest {
 
     @Autowired
     private TestEntityManager em;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     private Role role;
     private User author;
@@ -81,8 +85,7 @@ public class TopicRepositoryFindTopicDetailsByIdTest {
             new User(
                 "Vera Joana Luana Aragão",
                 "vera.joanalu@email.com",
-                "123456",
-                Set.of(role)
+                passwordEncoder.encode("123456")
             )
         );
     }
