@@ -12,7 +12,7 @@ public interface SimpleFindTopicTransfer {
     LocalDateTime getCreationDate();
     TopicStatus getStatus();
     Long getAuthorId();
-    String geAuthorName();
+    String getAuthorName();
     Long getCourseId();
     String getCourseName();
 }

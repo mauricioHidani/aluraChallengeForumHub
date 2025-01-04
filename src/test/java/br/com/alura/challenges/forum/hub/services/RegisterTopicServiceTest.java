@@ -108,7 +108,7 @@ class RegisterTopicServiceTest {
             @Override public LocalDateTime getCreationDate() { return entity.getCreationDate(); }
             @Override public TopicStatus getStatus() { return entity.getStatus(); }
             @Override public Long getAuthorId() { return entity.getAuthor().getId(); }
-            @Override public String geAuthorName() { return entity.getAuthor().getName(); }
+            @Override public String getAuthorName() { return entity.getAuthor().getName(); }
             @Override public Long getCourseId() { return entity.getCourse().getId(); }
             @Override public String getCourseName() { return entity.getCourse().getName(); }
         };

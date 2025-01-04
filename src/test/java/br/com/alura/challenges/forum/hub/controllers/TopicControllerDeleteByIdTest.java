@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -30,6 +31,7 @@ public class TopicControllerDeleteByIdTest {
     private DeleteTopicService service;
 
     @Test
+    @WithMockUser
     @DisplayName("Delete By Id Given Found Topic By Id And Delete Should Return 204 No Content")
     void deleteById_givenFoundTopicByIdAndDelete_shouldReturn204NoContent() throws Exception {
         final var id = 1L;
@@ -41,6 +43,7 @@ public class TopicControllerDeleteByIdTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Delete By Id Given Not Found Topic By Id Should Return 404 Not Found")
     void deleteById_givenNotFoundTopicById_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foi possivel encontrar o tópico especificado.";

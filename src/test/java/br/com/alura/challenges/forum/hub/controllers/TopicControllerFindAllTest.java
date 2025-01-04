@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,13 +28,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,6 +54,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given Paged Defined Should Return 200 Ok")
     void findAll_givenPagedDefined_shouldReturn200Ok() throws Exception {
         final Map<String, String> params = Map.of();
@@ -85,6 +83,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All When Not Founded Should Return 404 Not Found")
     void findAll_whenNotFounded_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
@@ -108,6 +107,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given First 10 Topics By Creation Date Should Return 200 OK")
     void findAll_givenFirst10TopicsByCreationDate_shouldReturn200Ok() throws Exception {
         final Map<String, String> params = Map.of();
@@ -133,6 +133,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given First 10 Topics By Creation Date Not Founded Should Return 404 Not Found")
     void findAll_givenFirst10TopicsByCreationDateNotFounded_shouldReturn404NotFound() throws Exception {
         final Map<String, String> params = Map.of();
@@ -153,6 +154,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given Params Has Course Name Should Return 200 Ok")
     void findAll_givenParamsHasCourseName_shouldReturn200Ok() throws Exception {
         final var expectedCourseName = "Curso Spring JPA";
@@ -184,6 +186,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given Params Has Course Name Not Founded Should Return 404 Not Found")
     void findAll_givenParamsHasCourseNameNotFounded_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";
@@ -210,6 +213,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given Params Has Creation Year Should Return 200 Ok")
     void findAll_givenParamsHasCreationYear_shouldReturn200Ok() throws Exception {
         final var expectedTarget = "creation-year";
@@ -243,6 +247,7 @@ public class TopicControllerFindAllTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find All Given Params Has Creation Year Not Founded Should Return 404 Not Found")
     void findAll_givenParamsHasCreationYearNotFounded_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foram encontrados tópicos com as especificações indicadas.";

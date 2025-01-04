@@ -1,15 +1,11 @@
 package br.com.alura.challenges.forum.hub.controllers;
 
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
-import br.com.alura.challenges.forum.hub.models.entities.Course;
-import br.com.alura.challenges.forum.hub.models.entities.Topic;
-import br.com.alura.challenges.forum.hub.models.entities.User;
 import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import br.com.alura.challenges.forum.hub.models.responses.FindTopicResponse;
 import br.com.alura.challenges.forum.hub.models.responses.SimpleCourseResponse;
 import br.com.alura.challenges.forum.hub.models.responses.SimpleUserResponse;
 import br.com.alura.challenges.forum.hub.services.FindByIdTopicService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +14,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +37,7 @@ public class TopicControllerFindByIdTest {
     private FindByIdTopicService service;
 
     @Test
+    @WithMockUser
     @DisplayName("Find By Id Given Exists By Id Should Return 200 Ok")
     void findById_givenExistsById_shouldReturn200Ok() throws Exception {
         final var expectedResponse = buildSingleTopic();
@@ -64,6 +61,7 @@ public class TopicControllerFindByIdTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("Find By Id Given No Exists By Id Should Return 404 Not Found")
     void findById_givenNoExistsById_shouldReturn404NotFound() throws Exception {
         final var exceptionMessage = "Não foi possivel encontrar o tópico pelo id.";
