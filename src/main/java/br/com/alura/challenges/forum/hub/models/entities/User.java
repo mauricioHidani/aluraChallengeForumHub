@@ -32,7 +32,12 @@ public class User implements UserDetails {
             columnDefinition = "VARCHAR(255)")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+                cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+                }
+    )
     @JoinTable(name = "perfis_de_usuarios",
                joinColumns = @JoinColumn(name = "usuario_id"),
                inverseJoinColumns = @JoinColumn(name = "perfil_id"))
@@ -51,6 +56,13 @@ public class User implements UserDetails {
     }
 
     public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -78,11 +90,11 @@ public class User implements UserDetails {
         return password;
     }
 
-    public Set<Role> getRules() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void addRule(Role role) {
+    public void addRole(Role role) {
         this.roles.add(role);
     }
 

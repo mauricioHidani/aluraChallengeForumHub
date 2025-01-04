@@ -37,7 +37,7 @@ public class RegisterUserService {
                 .orElseThrow(() -> new NotFoundException("Não foi possível encontrar a função do usuário"));
 
         final var parsedToEntity = request.parseToEntity(passwordEncoder);
-        parsedToEntity.addRule(userRole);
+        parsedToEntity.addRole(userRole);
 
         return RegisterUserResponse.parse(
                 repository.save(parsedToEntity)
