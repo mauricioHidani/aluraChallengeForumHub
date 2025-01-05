@@ -41,10 +41,9 @@ public class Topic {
     @JoinColumn(name = "curso_id")
     private Course course;
 
-    @OneToMany
-    @JoinTable(name = "respostas_do_topico",
-               joinColumns = @JoinColumn(name = "topico_id"),
-               inverseJoinColumns = @JoinColumn(name = "resposta_id"))
+    @OneToMany(mappedBy = "topic",
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
     private Set<Response> responses = new HashSet<>();
 
     protected Topic() {
