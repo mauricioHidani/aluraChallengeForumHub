@@ -3,7 +3,6 @@ package br.com.alura.challenges.forum.hub.models.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "respostas")
@@ -21,6 +20,7 @@ public class Response {
     private String solution;
 
     @ManyToOne
+    @JoinColumn(name = "topico_id")
     private Topic topic;
 
     @ManyToOne
@@ -30,7 +30,10 @@ public class Response {
     protected Response() {
     }
 
-    public Response(LocalDateTime creationDate, String solution, Topic topic, User author) {
+    public Response(LocalDateTime creationDate,
+                    String solution,
+                    Topic topic,
+                    User author) {
         this.creationDate = creationDate;
         this.solution = solution;
         this.topic = topic;
