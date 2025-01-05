@@ -35,6 +35,12 @@ public class Course {
         this.category = category;
     }
 
+    public Course(Long id, String name, String category) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+    }
+
     public Long getId() {
         return id;
     }
