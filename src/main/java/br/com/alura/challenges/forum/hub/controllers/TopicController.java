@@ -26,17 +26,20 @@ public class TopicController {
     private final FindAllTopicService findAllService;
     private final UpdateTopicService updateService;
     private final DeleteTopicService deleteService;
+    private final CloseByIdTopicService closeByIdService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService,
                            final UpdateTopicService updateService,
-                           final DeleteTopicService deleteService) {
+                           final DeleteTopicService deleteService,
+                           final CloseByIdTopicService closeByIdService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
         this.updateService = updateService;
         this.deleteService = deleteService;
+        this.closeByIdService = closeByIdService;
     }
 
     @PostMapping
@@ -69,6 +72,12 @@ public class TopicController {
     @PutMapping("/{id}")
     public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id, @RequestBody UpdateTopicRequest request) {
         final var result = updateService.execute(id, request);
+        return ResponseEntity.ok(result);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> closeById(@PathVariable Long id) {
+        final var result = closeByIdService.execute(id);
         return ResponseEntity.ok(result);
     }
 
