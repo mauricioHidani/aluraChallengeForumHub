@@ -96,6 +96,10 @@ public class Topic {
         return status;
     }
 
+    public void setStatus(TopicStatus status) {
+        this.status = status;
+    }
+
     public User getAuthor() {
         return author;
     }
