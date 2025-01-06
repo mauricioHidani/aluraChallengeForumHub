@@ -1,4 +1,4 @@
-package br.com.alura.challenges.forum.hub;
+package br.com.alura.challenges.forum.hub.controllers;
 
 import br.com.alura.challenges.forum.hub.models.requests.RegisterRoleRequest;
 import br.com.alura.challenges.forum.hub.models.requests.UpdateRoleRequest;
