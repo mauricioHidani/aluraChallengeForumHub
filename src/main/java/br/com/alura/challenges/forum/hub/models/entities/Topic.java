@@ -53,8 +53,13 @@ public class Topic {
         this.id = id;
     }
 
-    public Topic(String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
-                 Course course, Set<Response> responses) {
+    public Topic(String title,
+                 String message,
+                 LocalDateTime creationDate,
+                 TopicStatus status,
+                 User author,
+                 Course course,
+                 Set<Response> responses) {
         this.title = title;
         this.message = message;
         this.creationDate = creationDate;
@@ -64,8 +69,14 @@ public class Topic {
         this.responses = responses;
     }
 
-    public Topic(Long id, String title, String message, LocalDateTime creationDate, TopicStatus status, User author,
-                 Course course, Set<Response> responses) {
+    public Topic(Long id,
+                 String title,
+                 String message,
+                 LocalDateTime creationDate,
+                 TopicStatus status,
+                 User author,
+                 Course course,
+                 Set<Response> responses) {
         this.id = id;
         this.title = title;
         this.message = message;

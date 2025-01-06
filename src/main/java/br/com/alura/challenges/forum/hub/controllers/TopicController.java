@@ -70,7 +70,8 @@ public class TopicController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id, @RequestBody UpdateTopicRequest request) {
+    public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id,
+                                                          @RequestBody UpdateTopicRequest request) {
         final var result = updateService.execute(id, request);
         return ResponseEntity.ok(result);
     }
