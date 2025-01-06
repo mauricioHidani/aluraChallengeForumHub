@@ -1,10 +1,7 @@
 package br.com.alura.challenges.forum.hub.models.requests;
 
-import br.com.alura.challenges.forum.hub.models.entities.Role;
-import br.com.alura.challenges.forum.hub.models.entities.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
