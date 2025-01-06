@@ -1,0 +1,6 @@
+CREATE TABLE perfis(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(64),
+
+    PRIMARY KEY(id)
+);
