@@ -21,7 +21,7 @@ public class TokenService {
     @Value("${application.security.issuer-name}")
     private String issuerName;
 
-    public String buildToken(User user) {
+    public String buildToken(final User user) {
         try {
             final var algorithm = Algorithm.HMAC256(tokenSecret);
             return JWT.create()
