@@ -5,6 +5,7 @@ import br.com.alura.challenges.forum.hub.models.transfers.SimpleFindTopicTransfe
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -39,5 +40,9 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     @Query("SELECT t FROM Topic t WHERE YEAR(t.creationDate) = :year")
     List<Topic> findAllByCreationDateYear(Integer year);
+
+    @Modifying
+    @Query("UPDATE Topic t SET t.author.id = NULL WHERE t.author.id = :authorId")
+    void deactivateAuthorById(Long authorId);
 
 }
