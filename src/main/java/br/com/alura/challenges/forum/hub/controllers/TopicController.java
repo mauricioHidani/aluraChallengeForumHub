@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -71,20 +72,23 @@ public class TopicController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id,
-                                                          @RequestBody UpdateTopicRequest request) {
-        final var result = updateService.execute(id, request);
+                                                          @RequestBody UpdateTopicRequest request,
+                                                          Authentication authentication) {
+        final var result = updateService.execute(id, request, authentication);
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> closeById(@PathVariable Long id) {
-        final var result = closeByIdService.execute(id);
+    public ResponseEntity<String> closeById(@PathVariable Long id,
+                                            Authentication authentication) {
+        final var result = closeByIdService.execute(id, authentication);
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        deleteService.execute(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id,
+                                           Authentication authentication) {
+        deleteService.execute(id, authentication);
         return ResponseEntity.noContent().build();
     }
 

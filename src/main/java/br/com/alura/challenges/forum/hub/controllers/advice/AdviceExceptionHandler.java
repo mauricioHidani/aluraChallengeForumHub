@@ -2,6 +2,7 @@ package br.com.alura.challenges.forum.hub.controllers.advice;
 
 import br.com.alura.challenges.forum.hub.exceptions.ConflictEntityException;
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
+import br.com.alura.challenges.forum.hub.exceptions.UnauthorizedRequisitionException;
 import br.com.alura.challenges.forum.hub.models.responses.ErrorResponse;
 import br.com.alura.challenges.forum.hub.models.responses.ValidationErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -78,6 +79,12 @@ public class AdviceExceptionHandler {
                 "Acesso negado",
                 request
         );
+    }
+
+    @ExceptionHandler(UnauthorizedRequisitionException.class)
+    public ResponseEntity<ErrorResponse> unauthorizedRequisitionException(UnauthorizedRequisitionException exception,
+                                                                  HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, exception, request);
     }
 
     @ExceptionHandler(Exception.class)
