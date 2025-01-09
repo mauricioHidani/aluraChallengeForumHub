@@ -1,6 +1,7 @@
 package br.com.alura.challenges.forum.hub.controllers;
 
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
+import br.com.alura.challenges.forum.hub.exceptions.UnauthorizedRequisitionException;
 import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import br.com.alura.challenges.forum.hub.models.requests.UpdateTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.UpdateTopicResponse;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,7 +59,8 @@ public class TopicControllerUpdateByIdTest {
         final var request = buildUpdateTopicRequest();
         final var response = buildUpdateTopicResponse(id, creationDate);
 
-        when(service.execute(id, request)).thenReturn(response);
+        when(service.execute(eq(id), eq(request), any(Authentication.class)))
+                .thenReturn(response);
 
         mockMvc.perform(put("/topicos/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +70,32 @@ public class TopicControllerUpdateByIdTest {
                 .andExpect(jsonPath("$.message").value(response.message()))
                 .andExpect(jsonPath("$.status").value(response.status()));
 
-        verify(service, times(1)).execute(any(Long.class), any(UpdateTopicRequest.class));
+        verify(service, times(1))
+                .execute(any(Long.class), any(UpdateTopicRequest.class), any(Authentication.class));
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("Update By Id Given Is Not Owner By Topic Should Return 403 Unauthorized")
+    void updateById_givenIsNotOwnerByTopic_shouldReturn403Unauthorized() throws Exception {
+        final var exceptionMessage = "Não permitido que uma pessoa que não seja o autor modifique o tópico.";
+        final var id = 1L;
+        final var request = buildUpdateTopicRequest();
+        final var status = HttpStatus.UNAUTHORIZED;
+
+        when(service.execute(eq(id), eq(request), any(Authentication.class)))
+                .thenThrow(new UnauthorizedRequisitionException(exceptionMessage));
+
+        mockMvc.perform(put("/topicos/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.statusCode").value(status.value()))
+                .andExpect(jsonPath("$.status").value(status.name()))
+                .andExpect(jsonPath("$.errorMessage").value(exceptionMessage));
+
+        verify(service, times(1))
+                .execute(any(Long.class), any(UpdateTopicRequest.class), any(Authentication.class));
     }
 
     @Test
@@ -78,7 +106,8 @@ public class TopicControllerUpdateByIdTest {
         final var id = 1000L;
         final var request = buildUpdateTopicRequest();
 
-        when(service.execute(id, request)).thenThrow(new NotFoundException(exceptionMessage));
+        when(service.execute(eq(id), eq(request), any(Authentication.class)))
+                .thenThrow(new NotFoundException(exceptionMessage));
 
         mockMvc.perform(put("/topicos/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +117,8 @@ public class TopicControllerUpdateByIdTest {
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.name()))
                 .andExpect(jsonPath("$.errorMessage").value(exceptionMessage));
 
-        verify(service, times(1)).execute(any(Long.class), any(UpdateTopicRequest.class));
+        verify(service, times(1))
+                .execute(any(Long.class), any(UpdateTopicRequest.class), any(Authentication.class));
     }
 
     UpdateTopicRequest buildUpdateTopicRequest() {
