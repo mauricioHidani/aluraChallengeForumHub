@@ -1,15 +1,24 @@
-# 📖Forum Hub
+# 📖Forum Hub ![Static Badge](https://img.shields.io/badge/CONCLU%C3%8DDO-%236DB33F?style=flat-square&color=%236DB33F)
 🌎[@Alura](https://www.alura.com.br/) [@Oracle](https://www.oracle.com/br/)<br>
 🤙Alura ONE G7 Challenges<br>
 🚩`Especialização Back-End/Java e Spring Framework`<br>
 📅Wednesday, 18th December 2024 -📍São Paulo, Brazil<br>
+
+![Static Badge](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&label=3.4.1&labelColor=000000)
+![Static Badge](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&label=8.1.0&labelColor=1d1d1d)
+![Static Badge](https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&label=10.20.1&labelColor=1d1d1d)
+![Static Badge](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&label=3.4.1&labelColor=000000)
+![Static Badge](https://img.shields.io/badge/Auth0-EB5424?style=for-the-badge&logo=auth0&label=4.2.1&labelColor=1d1d1d)
+![Static Badge](https://img.shields.io/badge/OpenAPI%20Initiative-6BA539?style=for-the-badge&logo=openapiinitiative&label=2.8.1&labelColor=1d1d1d)
+
+![aluraForumHub](https://github.com/user-attachments/assets/53f16d70-1e87-4996-b8f9-14097d363a60)
 
 ## Descrição do desafio
 Esté é um desafio proposto pelo programa [ONE](https://www.oracle.com/br/education/oracle-next-education/) para desenvolver uma aplicação _backend_ que simule um Forúm, com seus Tópicos que devem receber respostas dos usuário para solucioná-lo, cada tópico tratá-se de uma problemática de algum curso que um usuário abril, o foco da criação do tópico é conseguir resposstas de outros usuário que possam ajudar:
 
 - Tópicos:
   - Registrar
-  - Listagem paginada
+  - Listagem paginada 
   - Listagem por nome de curso
   - Listagem pelos 10 primeiros por data de criação
   - Listagem por ano de criação
