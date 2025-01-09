@@ -2,7 +2,7 @@ package br.com.alura.challenges.forum.hub.controllers;
 
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
 import br.com.alura.challenges.forum.hub.exceptions.UnauthorizedRequisitionException;
-import br.com.alura.challenges.forum.hub.services.DeleteTopicService;
+import br.com.alura.challenges.forum.hub.services.DeleteByIdTopicService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class TopicControllerDeleteByIdTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private DeleteTopicService service;
+    private DeleteByIdTopicService service;
 
     @Test
     @WithMockUser(username = "fulana.user@gmail.com", roles = "USER")

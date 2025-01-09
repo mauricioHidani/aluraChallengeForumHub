@@ -30,7 +30,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class DeleteTopicServiceTest {
+public class DeleteByIdTopicServiceTest {
 
     @Mock
     private TopicRepository repository;
@@ -39,7 +39,7 @@ public class DeleteTopicServiceTest {
     private Authentication authentication;
 
     @InjectMocks
-    private DeleteTopicService service;
+    private DeleteByIdTopicService service;
 
     private PasswordEncoder passwordEncoder;
 

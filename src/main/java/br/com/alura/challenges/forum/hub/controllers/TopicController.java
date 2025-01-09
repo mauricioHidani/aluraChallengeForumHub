@@ -26,20 +26,20 @@ public class TopicController {
     private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
     private final UpdateTopicService updateService;
-    private final DeleteTopicService deleteService;
+    private final DeleteByIdTopicService deleteByIdService;
     private final CloseByIdTopicService closeByIdService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService,
                            final UpdateTopicService updateService,
-                           final DeleteTopicService deleteService,
+                           final DeleteByIdTopicService deleteByIdService,
                            final CloseByIdTopicService closeByIdService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
         this.updateService = updateService;
-        this.deleteService = deleteService;
+        this.deleteByIdService = deleteByIdService;
         this.closeByIdService = closeByIdService;
     }
 
@@ -88,7 +88,7 @@ public class TopicController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id,
                                            Authentication authentication) {
-        deleteService.execute(id, authentication);
+        deleteByIdService.execute(id, authentication);
         return ResponseEntity.noContent().build();
     }
 
