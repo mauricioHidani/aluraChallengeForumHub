@@ -1,6 +1,7 @@
 package br.com.alura.challenges.forum.hub.services;
 
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
+import br.com.alura.challenges.forum.hub.exceptions.UnauthorizedRequisitionException;
 import br.com.alura.challenges.forum.hub.models.entities.Course;
 import br.com.alura.challenges.forum.hub.models.entities.Topic;
 import br.com.alura.challenges.forum.hub.models.entities.User;
@@ -8,24 +9,33 @@ import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import br.com.alura.challenges.forum.hub.models.requests.UpdateTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.UpdateTopicResponse;
 import br.com.alura.challenges.forum.hub.repositories.TopicRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UpdateTopicService {
+public class UpdateByIdTopicService {
 
     private final TopicRepository repository;
 
-    public UpdateTopicService(final TopicRepository repository) {
+    public UpdateByIdTopicService(final TopicRepository repository) {
         this.repository = repository;
     }
 
     @Transactional
-    public UpdateTopicResponse execute(Long id, UpdateTopicRequest request) {
+    public UpdateTopicResponse execute(Long id, UpdateTopicRequest request, Authentication authentication) {
+        final var authUsername = authentication.getName();
         var founded = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
-                        "Não foi encontrado o tópico com o id especificado."
+                    "Não foi encontrado o tópico com o id especificado."
                 ));
+
+        final var author = founded.getAuthor();
+        if (author == null || !author.getUsername().equals(authUsername)) {
+            throw new UnauthorizedRequisitionException(
+                "Não permitido que uma pessoa que não seja o autor modifique o tópico."
+            );
+        }
 
         var changed = updateData(founded, request);
         if (changed.equals(founded)) {

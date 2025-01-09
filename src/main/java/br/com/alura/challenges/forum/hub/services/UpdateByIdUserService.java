@@ -1,26 +1,27 @@
 package br.com.alura.challenges.forum.hub.services;
 
 import br.com.alura.challenges.forum.hub.exceptions.NotFoundException;
-import br.com.alura.challenges.forum.hub.models.entities.Role;
 import br.com.alura.challenges.forum.hub.models.entities.User;
 import br.com.alura.challenges.forum.hub.models.requests.UpdateUserRequest;
 import br.com.alura.challenges.forum.hub.models.responses.UpdateUserResponse;
+import br.com.alura.challenges.forum.hub.repositories.RoleRepository;
 import br.com.alura.challenges.forum.hub.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.Collectors;
-
 @Service
 public class UpdateByIdUserService {
 
     private final UserRepository repository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UpdateByIdUserService(final UserRepository repository,
+                                 final RoleRepository roleRepository,
                                  final PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,12 +42,14 @@ public class UpdateByIdUserService {
         var password = !passwordEncoder.matches(update.password(), found.getPassword()) ? passwordEncoder.encode(update.password()) : found.getPassword();
 
         final var newUser = new User(found.getId(), name, email, password);
-        newUser.getRoles().addAll(found.getRoles());
-        newUser.getRoles().addAll(
-                update.roles().stream()
-                    .map(Role::new)
-                    .collect(Collectors.toSet())
-        );
+        update.roles().stream()
+                .map(roleName -> roleRepository.findByName(roleName)
+                    .orElseThrow(() -> new NotFoundException(
+                            "Não foi possivel encontrar o perfil de usuário especificado."
+                        )
+                    )
+                )
+                .forEach(newUser::addRole);
 
         return newUser;
     }

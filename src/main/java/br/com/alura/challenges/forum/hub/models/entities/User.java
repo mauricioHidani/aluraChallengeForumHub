@@ -32,12 +32,7 @@ public class User implements UserDetails {
             columnDefinition = "VARCHAR(255)")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-                cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-                }
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "perfis_de_usuarios",
                joinColumns = @JoinColumn(name = "usuario_id"),
                inverseJoinColumns = @JoinColumn(name = "perfil_id"))

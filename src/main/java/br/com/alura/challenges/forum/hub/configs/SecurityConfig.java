@@ -28,11 +28,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
+                // Authenticate user
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/login").permitAll())
+
+                // User end-points
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/usuarios").permitAll())
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.GET, "/usuarios/email/**").permitAll())
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.GET, "/usuarios/**").permitAll())
+
+                // Users Role end-points
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/perfis/**").hasRole("ADMIN"))
+
+                // Course end-points
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/cursos/**").hasRole("ADMIN"))
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.PUT, "/cursos/**").hasRole("ADMIN"))
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.DELETE, "/cursos/**").hasRole("ADMIN"))
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.GET, "/cursos/**").hasRole("USER"))
+
+                // Documentation Swagger end-point
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll())
+
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -11,6 +11,7 @@ import br.com.alura.challenges.forum.hub.services.RegisterUserService;
 import br.com.alura.challenges.forum.hub.services.UpdateByIdUserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,8 +58,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        deleteByIdService.execute(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, Authentication authentication) {
+        deleteByIdService.execute(id, authentication);
         return ResponseEntity.noContent().build();
     }
 

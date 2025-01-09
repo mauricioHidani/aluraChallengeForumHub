@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,21 +25,21 @@ public class TopicController {
     private final RegisterTopicService registerService;
     private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
-    private final UpdateTopicService updateService;
-    private final DeleteTopicService deleteService;
+    private final UpdateByIdTopicService updateByIdService;
+    private final DeleteByIdTopicService deleteByIdService;
     private final CloseByIdTopicService closeByIdService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService,
-                           final UpdateTopicService updateService,
-                           final DeleteTopicService deleteService,
+                           final UpdateByIdTopicService updateByIdService,
+                           final DeleteByIdTopicService deleteByIdService,
                            final CloseByIdTopicService closeByIdService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
-        this.updateService = updateService;
-        this.deleteService = deleteService;
+        this.updateByIdService = updateByIdService;
+        this.deleteByIdService = deleteByIdService;
         this.closeByIdService = closeByIdService;
     }
 
@@ -71,20 +72,23 @@ public class TopicController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id,
-                                                          @RequestBody UpdateTopicRequest request) {
-        final var result = updateService.execute(id, request);
+                                                          @RequestBody UpdateTopicRequest request,
+                                                          Authentication authentication) {
+        final var result = updateByIdService.execute(id, request, authentication);
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> closeById(@PathVariable Long id) {
-        final var result = closeByIdService.execute(id);
+    public ResponseEntity<String> closeById(@PathVariable Long id,
+                                            Authentication authentication) {
+        final var result = closeByIdService.execute(id, authentication);
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        deleteService.execute(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id,
+                                           Authentication authentication) {
+        deleteByIdService.execute(id, authentication);
         return ResponseEntity.noContent().build();
     }
 
