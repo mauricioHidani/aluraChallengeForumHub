@@ -14,7 +14,13 @@
 ![aluraForumHub](https://github.com/user-attachments/assets/53f16d70-1e87-4996-b8f9-14097d363a60)
 
 ## Descrição do desafio
-Esté é um desafio proposto pelo programa [ONE](https://www.oracle.com/br/education/oracle-next-education/) para desenvolver uma aplicação _backend_ que simule um Forúm, com seus Tópicos que devem receber respostas dos usuário para solucioná-lo, cada tópico tratá-se de uma problemática de algum curso que um usuário abril, o foco da criação do tópico é conseguir resposstas de outros usuário que possam ajudar:
+Esté é um desafio proposto pelo programa [ONE](https://www.oracle.com/br/education/oracle-next-education/) para desenvolver uma aplicação _backend_ que simule um Forúm, com seus Tópicos que devem receber respostas dos usuário para solucioná-lo, cada tópico tratá-se de uma problemática de algum curso que um usuário abril. O foco da criação do tópico é conseguir respostas de outros usuário que possam ajudar.
+
+Além de que, para modificações ou acesso dos recursos como exclução, atualização e alteração de status do tópico, o usuário logado deve ser o dono/criador do mesmo, ou caso seja um usuário Administrador. Também ocorre nas respostas que podem ser excluídas apenas por seus criadores.
+
+Cursos devem ser registrados no sistema apenas por Administradores, assim como as demais operações, com a excessão da consulta de cursos.
+
+Abaixo é possivel ver a lista das operações:
 
 - Tópicos:
   - Registrar
