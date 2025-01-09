@@ -32,7 +32,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-class UpdateTopicServiceTest {
+class UpdateByIdTopicServiceTest {
 
     @Mock
     private TopicRepository repository;
@@ -41,7 +41,7 @@ class UpdateTopicServiceTest {
     private Authentication authentication;
 
     @InjectMocks
-    private UpdateTopicService service;
+    private UpdateByIdTopicService service;
 
     private PasswordEncoder passwordEncoder;
     private String password;

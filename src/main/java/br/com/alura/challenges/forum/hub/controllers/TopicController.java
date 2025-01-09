@@ -25,20 +25,20 @@ public class TopicController {
     private final RegisterTopicService registerService;
     private final FindByIdTopicService findByIdService;
     private final FindAllTopicService findAllService;
-    private final UpdateTopicService updateService;
+    private final UpdateByIdTopicService updateByIdService;
     private final DeleteByIdTopicService deleteByIdService;
     private final CloseByIdTopicService closeByIdService;
 
     public TopicController(final RegisterTopicService registerService,
                            final FindByIdTopicService findByIdService,
                            final FindAllTopicService findAllService,
-                           final UpdateTopicService updateService,
+                           final UpdateByIdTopicService updateByIdService,
                            final DeleteByIdTopicService deleteByIdService,
                            final CloseByIdTopicService closeByIdService) {
         this.registerService = registerService;
         this.findByIdService = findByIdService;
         this.findAllService = findAllService;
-        this.updateService = updateService;
+        this.updateByIdService = updateByIdService;
         this.deleteByIdService = deleteByIdService;
         this.closeByIdService = closeByIdService;
     }
@@ -74,7 +74,7 @@ public class TopicController {
     public ResponseEntity<UpdateTopicResponse> updateById(@PathVariable Long id,
                                                           @RequestBody UpdateTopicRequest request,
                                                           Authentication authentication) {
-        final var result = updateService.execute(id, request, authentication);
+        final var result = updateByIdService.execute(id, request, authentication);
         return ResponseEntity.ok(result);
     }
 

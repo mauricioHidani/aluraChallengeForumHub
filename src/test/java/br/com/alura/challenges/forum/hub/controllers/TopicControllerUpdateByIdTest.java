@@ -5,7 +5,7 @@ import br.com.alura.challenges.forum.hub.exceptions.UnauthorizedRequisitionExcep
 import br.com.alura.challenges.forum.hub.models.enums.TopicStatus;
 import br.com.alura.challenges.forum.hub.models.requests.UpdateTopicRequest;
 import br.com.alura.challenges.forum.hub.models.responses.UpdateTopicResponse;
-import br.com.alura.challenges.forum.hub.services.UpdateTopicService;
+import br.com.alura.challenges.forum.hub.services.UpdateByIdTopicService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ public class TopicControllerUpdateByIdTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private UpdateTopicService service;
+    private UpdateByIdTopicService service;
 
     private ObjectMapper objectMapper;
 

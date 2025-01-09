@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UpdateTopicService {
+public class UpdateByIdTopicService {
 
     private final TopicRepository repository;
 
-    public UpdateTopicService(final TopicRepository repository) {
+    public UpdateByIdTopicService(final TopicRepository repository) {
         this.repository = repository;
     }
 
