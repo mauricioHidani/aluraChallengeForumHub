@@ -128,3 +128,6 @@ erDiagram
         String nome
     }
 ```
+
+## Observação
+* Nos testes, realizei apenas para os Tópicos, sendo eles o básico para um mapeamento CRUD (Create, Read, Update, Delete).
